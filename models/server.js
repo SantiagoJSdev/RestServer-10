@@ -10,8 +10,15 @@ class Server {
 
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath = '/api/usuarios';
-        this.authPath = '/api/auth';
+
+        this.paths = {
+            auth:       '/api/auth',
+            buscar:       '/api/buscar',
+            categorias: '/api/categorias',
+            usuario:    '/api/usuarios',
+            producto:   '/api/productos'
+        }
+       
 
 
         //conectar a base de datos
@@ -41,9 +48,13 @@ class Server {
     }
 
     routes(){
-
-        this.app.use(this.authPath, require('../routes/auth'))
-        this.app.use(this.usuariosPath, require('../routes/usuarios'))
+        // Aqui uso este  middlewares para configurar mi routas
+        // indico mi routa y en el otro argumento que voy a llamar
+        this.app.use(this.paths.auth, require('../routes/auth'))
+        this.app.use(this.paths.buscar, require('../routes/buscar'))
+        this.app.use(this.paths.categorias, require('../routes/categorias'))
+        this.app.use(this.paths.usuario, require('../routes/usuarios'))
+        this.app.use(this.paths.producto, require('../routes/productos'))
     }
 
     listen(){
